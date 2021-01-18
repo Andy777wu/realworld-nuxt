@@ -37,10 +37,11 @@ export const getArticle  = (slug)=>{
     })
 }
 // POST /api/articles
-export const createArticle  = (slug)=>{
+export const createArticle  = (data)=>{
     return request({
         url: '/api/articles',
-        method: 'POST'
+        method: 'POST',
+        data
     })
 }
 // PUT /api/articles/:slug

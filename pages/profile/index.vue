@@ -10,10 +10,10 @@
           <p>
             Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks like Peeta from the Hunger Games
           </p>
-          <button class="btn btn-sm btn-outline-secondary action-btn">
+          <button v-if="author !== user.username" class="btn btn-sm btn-outline-secondary action-btn">
             <i class="ion-plus-round"></i>
             &nbsp;
-            Follow Eric Simons 
+            Follow {{ profile.username }}
           </button>
         </div>
 
@@ -28,54 +28,66 @@
         <div class="articles-toggle">
           <ul class="nav nav-pills outline-active">
             <li class="nav-item">
-              <a class="nav-link active" href="">My Articles</a>
+              <nuxt-link 
+              class="nav-link" 
+              :class="{
+                active: tab === 'my_articles'
+              }"
+              exact
+              :to="{
+                name: 'profile',
+                query: {
+                  tab: 'my_articles'
+                }
+              }">My Articles</nuxt-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="">Favorited Articles</a>
+              <nuxt-link 
+              class="nav-link" 
+              :class="{
+                active: tab === 'favorited_articles'
+              }"
+              exact
+              :to="{
+                name: 'profile',
+                query: {
+                  tab: 'favorited_articles'
+                }
+              }">Favorited Articles</nuxt-link>
             </li>
           </ul>
         </div>
 
         <div class="article-preview">
-          <div class="article-meta">
-            <a href=""><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
-            <div class="info">
-              <a href="" class="author">Eric Simons</a>
-              <span class="date">January 20th</span>
-            </div>
-            <button class="btn btn-outline-primary btn-sm pull-xs-right">
-              <i class="ion-heart"></i> 29
-            </button>
+          <div 
+          class="article-preview"
+          v-for="article in articles"
+          :key="article.slug"
+          >
+              <div class="article-meta">
+                  <nuxt-link :to="'/profile/'+article.author.username"><img :src="article.author.image" /></nuxt-link>
+                  <div class="info">
+                      <nuxt-link :to="'/profile/'+article.author.username" class="author">{{ article.author.username }}</nuxt-link>
+                      <span class="date">{{ article.createdAt | date('MMM DD YYYY') }}</span>
+                  </div>
+                  <button 
+                  @click="onFavorite(article)" 
+                  class="btn btn-outline-primary btn-sm pull-xs-right"
+                  :class="{
+                      active: article.favorited
+                  }"
+                  :disabled="article.favoritedisabled" 
+                  >
+                      <i class="ion-heart"></i> {{ article.favoritesCount}}
+                  </button>
+              </div>
+              <nuxt-link :to="'/article/'+ article.slug" class="preview-link">
+                  <h1>{{ article.description }}</h1>
+                  <p>{{ article.body }}</p>
+                  <span>Read more...</span>
+              </nuxt-link>
           </div>
-          <a href="" class="preview-link">
-            <h1>How to build webapps that scale</h1>
-            <p>This is the description for the post.</p>
-            <span>Read more...</span>
-          </a>
         </div>
-
-        <div class="article-preview">
-          <div class="article-meta">
-            <a href=""><img src="http://i.imgur.com/N4VcUeJ.jpg" /></a>
-            <div class="info">
-              <a href="" class="author">Albert Pai</a>
-              <span class="date">January 20th</span>
-            </div>
-            <button class="btn btn-outline-primary btn-sm pull-xs-right">
-              <i class="ion-heart"></i> 32
-            </button>
-          </div>
-          <a href="" class="preview-link">
-            <h1>The song you won't ever stop singing. No matter how hard you try.</h1>
-            <p>This is the description for the post.</p>
-            <span>Read more...</span>
-            <ul class="tag-list">
-              <li class="tag-default tag-pill tag-outline">Music</li>
-              <li class="tag-default tag-pill tag-outline">Song</li>
-            </ul>
-          </a>
-        </div>
-
 
       </div>
 
@@ -89,42 +101,46 @@
 import { getProfiles } from '@/api/profile'
 import { getArticles } from '@/api/article'
 import { mapState } from 'vuex'
+import articleMeta from '../article/component/articleMeta'
 export default {
     middleware: 'auth',
+    components: {
+      articleMeta
+    },
     data() {
       return {
         profile: {}
       }
     },
+    async asyncData({ query, params, store }) {
+      const { tab="my_articles" } = query
+      const { username: author } = params
+      let obj
+      if(tab === 'favorited_articles') {
+        obj = { favorited: author }
+      }else {
+        obj = { author }
+      }
+      const { data } = await getArticles(obj)
+      const { articles } = data
+      return {
+        tab,
+        articles,
+        author
+      }
+    },
+    watchQuery: ['tab'],
     computed: {
       ...mapState(['user'])
     },
-    async created() {
+    created() {
       this.getProfile()
-      this.getArticleList()
-      this.getFeedArticleList()
     },
     methods: {
       async getProfile() {
         const { username } = this.$route.params
         const { data } = await getProfiles(username)
         this.profile = data.profile
-      },
-      async getArticleList() {
-        const author = this.$route.params
-        const { data } = await getProfiles({
-          author
-        })
-        console.log(data)
-        
-      },
-      async getFeedArticleList() {
-        const author = this.$route.params
-        const { data } = await getProfiles({
-          author,
-          favorited: this.user.username
-        })
-        console.log(data)
       }
     }
 }

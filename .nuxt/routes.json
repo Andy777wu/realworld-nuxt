@@ -6,38 +6,46 @@
       {
         "path": "",
         "name": "home",
-        "component": "D:\\\\lagou_learn\\\\VUE_part3\\\\realworld-nuxt\\\\pages\\\\home"
+        "component": "D:\\\\lagou_learn\\\\VUE_part3\\\\realworld-nuxt\\\\pages\\\\home",
+        "_name": "_0cb51bd1"
       },
       {
         "path": "/login",
         "name": "login",
-        "component": "D:\\\\lagou_learn\\\\VUE_part3\\\\realworld-nuxt\\\\pages\\\\login"
+        "component": "D:\\\\lagou_learn\\\\VUE_part3\\\\realworld-nuxt\\\\pages\\\\login",
+        "_name": "_ebb2b292"
       },
       {
         "path": "/register",
         "name": "register",
-        "component": "D:\\\\lagou_learn\\\\VUE_part3\\\\realworld-nuxt\\\\pages\\\\login"
+        "component": "D:\\\\lagou_learn\\\\VUE_part3\\\\realworld-nuxt\\\\pages\\\\login",
+        "_name": "_ebb2b292"
       },
       {
         "path": "/profile/:username",
         "name": "profile",
-        "component": "D:\\\\lagou_learn\\\\VUE_part3\\\\realworld-nuxt\\\\pages\\\\profile"
+        "component": "D:\\\\lagou_learn\\\\VUE_part3\\\\realworld-nuxt\\\\pages\\\\profile",
+        "_name": "_743ea577"
       },
       {
         "path": "/setting",
         "name": "setting",
-        "component": "D:\\\\lagou_learn\\\\VUE_part3\\\\realworld-nuxt\\\\pages\\\\setting"
+        "component": "D:\\\\lagou_learn\\\\VUE_part3\\\\realworld-nuxt\\\\pages\\\\setting",
+        "_name": "_05e1abc4"
       },
       {
         "path": "/edit",
         "name": "edit",
-        "component": "D:\\\\lagou_learn\\\\VUE_part3\\\\realworld-nuxt\\\\pages\\\\edit"
+        "component": "D:\\\\lagou_learn\\\\VUE_part3\\\\realworld-nuxt\\\\pages\\\\edit",
+        "_name": "_0cb394fc"
       },
       {
         "path": "/article/:slug",
         "name": "article",
-        "component": "D:\\\\lagou_learn\\\\VUE_part3\\\\realworld-nuxt\\\\pages\\\\article"
+        "component": "D:\\\\lagou_learn\\\\VUE_part3\\\\realworld-nuxt\\\\pages\\\\article",
+        "_name": "_5b08e8c4"
       }
-    ]
+    ],
+    "_name": "_8c1da4c8"
   }
 ]

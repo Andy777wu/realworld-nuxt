@@ -7,25 +7,34 @@
             <li class="nav-item">
               <nuxt-link class="nav-link" exact to="/">Home</nuxt-link>
             </li>
-            <li class="nav-item">
-              <nuxt-link class="nav-link" to="/edit">
-                <i class="ion-compose"></i>&nbsp;New Post
-              </nuxt-link>
-            </li>
-            <li class="nav-item">
-              <nuxt-link class="nav-link" to="/setting">
-                <i class="ion-gear-a"></i>&nbsp;Settings
-              </nuxt-link>
-            </li>
-            <li class="nav-item">
-              <nuxt-link class="nav-link" to="/login">Sign in</nuxt-link>
-            </li>
-            <li class="nav-item">
-              <nuxt-link class="nav-link" to="/register">Sign up</nuxt-link>
-            </li>
-            <li class="nav-item">
-              <nuxt-link class="nav-link" to="/register">Sign up</nuxt-link>
-            </li>
+            <template v-if="user">
+              <li class="nav-item">
+                <nuxt-link class="nav-link" to="/edit">
+                  <i class="ion-compose"></i>&nbsp;New Post
+                </nuxt-link>
+              </li>
+              <li class="nav-item">
+                <nuxt-link class="nav-link" to="/setting">
+                  <i class="ion-gear-a"></i>&nbsp;Settings
+                </nuxt-link>
+              </li>
+              <li class="nav-item">
+                <nuxt-link 
+                class="nav-link" 
+                :to="{
+                  name: 'profile',
+                  params: user.username
+                }">{{ user.username }}</nuxt-link>
+              </li>
+            </template>
+            <template v-else>
+              <li class="nav-item">
+                <nuxt-link class="nav-link" to="/login">Sign in</nuxt-link>
+              </li>
+              <li class="nav-item">
+                <nuxt-link class="nav-link" to="/register">Sign up</nuxt-link>
+              </li>
+            </template>
           </ul>
         </div>
       </nav>

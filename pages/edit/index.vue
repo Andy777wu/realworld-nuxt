@@ -4,24 +4,24 @@
             <div class="row">
 
             <div class="col-md-10 offset-md-1 col-xs-12">
-                <form>
-                <fieldset>
-                    <fieldset class="form-group">
-                        <input type="text" class="form-control form-control-lg" placeholder="Article Title">
+                <form @submit.prevent="publishArticle">
+                    <fieldset>
+                        <fieldset class="form-group">
+                            <input v-model="article.title" type="text" class="form-control form-control-lg" placeholder="Article Title">
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input v-model="article.description" type="text" class="form-control" placeholder="What's this article about?">
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <textarea v-model="article.body" class="form-control" rows="8" placeholder="Write your article (in markdown)"></textarea>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input v-model="article.tagList" type="text" class="form-control" placeholder="Enter tags split by ','"><div class="tag-list"></div>
+                        </fieldset>
+                        <button class="btn btn-lg pull-xs-right btn-primary">
+                            Publish Article
+                        </button>
                     </fieldset>
-                    <fieldset class="form-group">
-                        <input type="text" class="form-control" placeholder="What's this article about?">
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <textarea class="form-control" rows="8" placeholder="Write your article (in markdown)"></textarea>
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <input type="text" class="form-control" placeholder="Enter tags"><div class="tag-list"></div>
-                    </fieldset>
-                    <button class="btn btn-lg pull-xs-right btn-primary" type="button">
-                        Publish Article
-                    </button>
-                </fieldset>
                 </form>
             </div>
 
@@ -31,8 +31,40 @@
 </template>
 
 <script>
+import { createArticle } from '@/api/article'
+
 export default {
-    middleware: 'auth'
+    middleware: 'auth',
+    data() {
+        return {
+            article: {
+                title: '',
+                description: '',
+                body: '',
+                tagList: ''
+            }
+        }
+    },
+    methods: {
+        async publishArticle() {
+            try {
+                const article = this.article
+                article.tagList = this.article.tagList.split(',')
+                const { data } = await createArticle({
+                    article
+                })
+                this.$router.push({
+                    name: 'article',
+                    params: {
+                        slug: data.article.slug
+                    }
+                })
+            } catch (error) {
+                console.log(error);
+                
+            }
+        }
+    }
 }
 </script>
 

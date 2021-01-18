@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form class="card comment-form" @submit="postComment">
+        <form class="card comment-form" @submit.prevent="postComment">
             <div class="card-block">
                 <textarea v-model="myComment" class="form-control" placeholder="Write a comment..." rows="3"></textarea>
             </div>
