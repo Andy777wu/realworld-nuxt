@@ -1,0 +1,7 @@
+{
+    "app":[{
+        "name": "Realworld",
+        "script": "npm",
+        "args": "start"
+    }]
+}
